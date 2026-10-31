@@ -1,0 +1,9 @@
+{
+  "name": "zaara-dentistry",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Zaara Dentistry website with Supabase appointment booking",
+  "scripts": { "test": "node --test tests/validate.test.mjs tests/crm.test.mjs" },
+  "engines": { "node": ">=22" }
+}

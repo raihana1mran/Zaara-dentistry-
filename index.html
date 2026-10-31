@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Zaara Dentistry Admin</title>
+<style>
+body{margin:0;background:#e3e7ee;font:13px Manrope,system-ui,sans-serif;color:#111}main{max-width:1100px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:16px;padding:20px;margin-bottom:12px;overflow-x:auto}h1{font-weight:300;font-size:26px;letter-spacing:-.03em;margin:0 0 12px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}nav button,.b{border:1px solid #111;background:#fff;border-radius:8px;padding:8px 12px;font:inherit;font-size:11px;font-weight:600;cursor:pointer}
+nav button[aria-pressed=true],.b.d{background:#111;color:#fff}table{border-collapse:collapse;width:100%}td,th{padding:6px;text-align:left;border-bottom:1px solid #eef0f4;font-size:11px}
+input,select{border:1px solid #dfe4ec;border-radius:6px;padding:7px;font:inherit;font-size:11px;background:#f7f9fc;max-width:200px}.e{color:#b3261e}.m{color:#8a8f98}
+</style></head><body><main id="app"></main>
+<script src="config.js"></script>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
+// Fill in your project URL and the PUBLIC anon/publishable key. Never put the service-role key here.
+const CFG = window.ZAARA_ADMIN || { url: '', anonKey: '' };
+const app = document.getElementById('app');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+if (!CFG.url || !CFG.anonKey) { app.innerHTML = '<div class="card"><h1>Zaara Dentistry Admin</h1><p class="e">Not configured: set url and anonKey in admin/config.js.</p></div>'; throw 0; }
+const sb = createClient(CFG.url, CFG.anonKey);
+const ST = ['pending', 'confirmed', 'cancelled', 'completed', 'no_show'];
+const TABS = {
+  appointments: { sel: '*,dentists(full_name),services(name)', order: 'starts_at', add: false, del: false,
+    cols: [['reference'], ['starts_at', 'ro-date'], ['patient_name'], ['patient_phone'], ['patient_email'], ['dentists.full_name'], ['services.name'], ['status', ST]] },
+  enquiries: { order: 'created_at', desc: true, add: false, del: true, cols: [['created_at', 'ro-date'], ['name'], ['phone'], ['email'], ['message'], ['status', ['new', 'read', 'closed']]] },
+  dentists: { order: 'full_name', add: true, del: true, cols: [['full_name', 'text'], ['title', 'text'], ['is_active', 'bool']] },
+  services: { order: 'name', add: true, del: true, cols: [['name', 'text'], ['description', 'text'], ['duration_minutes', 'num'], ['is_active', 'bool']] },
+  dentist_services: { order: 'dentist_id', add: true, del: true, key: ['dentist_id', 'service_id'], cols: [['dentist_id', 'ref:dentists:full_name'], ['service_id', 'ref:services:name']] },
+  availability_rules: { order: 'weekday', add: true, del: true, cols: [['dentist_id', 'ref:dentists:full_name'], ['weekday', ['0','1','2','3','4','5','6']], ['start_time', 'time'], ['end_time', 'time'], ['is_active', 'bool']] },
+  time_off: { order: 'starts_at', add: true, del: true, cols: [['dentist_id', 'ref:dentists:full_name'], ['starts_at', 'dt'], ['ends_at', 'dt'], ['reason', 'text']] },
+};
+const refs = {};
+const get = (o, p) => p.split('.').reduce((a, k) => a?.[k], o);
+function input(t, v) {
+  if (t === 'bool') return `<input type="checkbox" ${v ? 'checked' : ''}>`;
+  if (Array.isArray(t)) return `<select>${t.map(o => `<option ${String(o) === String(v) ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select>`;
+  if (typeof t === 'string' && t.startsWith('ref:')) { const [, tb] = t.split(':'); return `<select>${(refs[tb] || []).map(r => `<option value="${r.id}" ${r.id === v ? 'selected' : ''}>${esc(r.label)}</option>`).join('')}</select>`; }
+  const type = { num: 'number', time: 'time', dt: 'datetime-local' }[t] || 'text';
+  return `<input type="${type}" value="${esc(type === 'datetime-local' && v ? new Date(v).toISOString().slice(0, 16) : v)}">`;
+}
+const val = (el, t) => el.type === 'checkbox' ? el.checked : (t === 'num' ? Number(el.value) : t === 'dt' ? new Date(el.value).toISOString() : el.value);
+async function show(name, note = '') {
+  const T = TABS[name];
+  const [d, s] = await Promise.all([sb.from('dentists').select('id,full_name'), sb.from('services').select('id,name')]);
+  refs.dentists = (d.data || []).map(r => ({ id: r.id, label: r.full_name })); refs.services = (s.data || []).map(r => ({ id: r.id, label: r.name }));
+  let q = sb.from(name).select(T.sel || '*').order(T.order, { ascending: !T.desc }).limit(300);
+  const { data, error } = await q;
+  const hdr = T.cols.map(c => `<th>${esc(c[0].split('.').pop().replace('_', ' '))}</th>`).join('');
+  const rows = (data || []).map(r => `<tr data-id="${esc(r.id)}" data-k="${esc(T.key ? T.key.map(k => r[k]).join('|') : '')}">${T.cols.map(([c, t]) => {
+    const ro = !t || t === 'ro-date' || c.includes('.');
+    return `<td data-c="${esc(c)}" data-t="${esc(Array.isArray(t) ? 'sel' : t || '')}">${ro ? esc(t === 'ro-date' ? new Date(r[c]).toLocaleString('en-IN') : get(r, c)) : input(t, r[c])}</td>`; }).join('')}<td>${T.del ? '<button class="b del">Delete</button>' : ''}</td></tr>`).join('');
+  const add = T.add ? `<tr id="new">${T.cols.map(([c, t]) => `<td data-c="${c}" data-t="${esc(Array.isArray(t) ? 'sel' : t)}">${input(t, t === 'bool' ? true : '')}</td>`).join('')}<td><button class="b d add">Add</button></td></tr>` : '';
+  document.getElementById('panel').innerHTML = `<p class="e">${esc(error?.message || note)}</p><table><thead><tr>${hdr}<th></th></tr></thead><tbody>${add}${rows}</tbody></table>`;
+  const panel = document.getElementById('panel');
+  panel.onchange = async e => { const td = e.target.closest('td'), tr = e.target.closest('tr'); if (!td || tr.id === 'new') return;
+    const { error } = await sb.from(name).update({ [td.dataset.c]: val(e.target, td.dataset.t) }).eq('id', tr.dataset.id);
+    if (error) show(name, error.message); };
+  panel.onclick = async e => { const tr = e.target.closest('tr');
+    if (e.target.classList.contains('add')) { const row = {}; tr.querySelectorAll('td[data-c]').forEach(td => { const el = td.firstElementChild; row[td.dataset.c] = val(el, td.dataset.t); });
+      const { error } = await sb.from(name).insert(row); show(name, error?.message || ''); }
+    if (e.target.classList.contains('del') && confirm('Delete this record?')) {
+      let q = sb.from(name).delete(); if (T.key) { const v = tr.dataset.k.split('|'); T.key.forEach((k, i) => q = q.eq(k, v[i])); } else q = q.eq('id', tr.dataset.id);
+      const { error } = await q; show(name, error?.message || ''); } };
+}
+async function panelView() {
+  app.innerHTML = `<div class="card"><h1>Zaara Dentistry Admin</h1><nav>${Object.keys(TABS).map(n => `<button data-n="${n}" aria-pressed="false">${n.replace('_', ' ')}</button>`).join('')}<button id="out">Sign out</button></nav><div id="panel"></div></div>`;
+  app.querySelector('nav').onclick = e => { const n = e.target.dataset.n; if (e.target.id === 'out') return sb.auth.signOut().then(start);
+    if (!n) return; app.querySelectorAll('nav [data-n]').forEach(b => b.setAttribute('aria-pressed', b.dataset.n === n)); show(n); };
+  app.querySelector('[data-n="appointments"]').click();
+}
+function loginView(msg = '') {
+  app.innerHTML = `<div class="card" style="max-width:360px;margin:40px auto"><h1>Zaara Dentistry Admin</h1><p class="e">${esc(msg)}</p>
+  <p><input id="em" type="email" placeholder="Email" autocomplete="username" style="width:100%"></p><p><input id="pw" type="password" placeholder="Password" autocomplete="current-password" style="width:100%"></p><button class="b d" id="go">Sign in</button></div>`;
+  document.getElementById('go').onclick = async () => { const { error } = await sb.auth.signInWithPassword({ email: em.value, password: pw.value }); error ? loginView('Sign-in failed.') : start(); };
+}
+async function start() {
+  const { data: { session } } = await sb.auth.getSession(); if (!session) return loginView();
+  const { data } = await sb.from('admin_users').select('user_id').eq('user_id', session.user.id); // RLS: only admins can read this
+  if (!data?.length) { await sb.auth.signOut(); return loginView('This account is not an administrator.'); }
+  panelView();
+}
+start();
+</script></body></html>
