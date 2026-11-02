@@ -138,7 +138,7 @@ module.exports = async function handler(req, res) {
         `Branch: ${branch}`,
         `Preferred Date: ${preferredDate || "Not specified"}`,
         `Preferred Time: ${preferredTime}`,
-        "Status: ""Appointment request status: New",
+        "Status: "Appointment request status: New",
         "The clinic must contact the requester to confirm the appointment."
       ].join("\n")
     };
@@ -164,7 +164,7 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "Your appointment request has been received. Our team will contact you to confirm."
     });
