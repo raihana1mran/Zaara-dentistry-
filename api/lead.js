@@ -138,7 +138,7 @@ module.exports = async function handler(req, res) {
         `Branch: ${branch}`,
         `Preferred Date: ${preferredDate || "Not specified"}`,
         `Preferred Time: ${preferredTime}`,
-        "Status: Awaiting clinic confirmation.",
+        "Status: "New",
         "The clinic must contact the requester to confirm the appointment."
       ].join("\n")
     };
