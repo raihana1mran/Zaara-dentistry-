@@ -425,86 +425,123 @@ window.addEventListener('load',function(){ScrollTrigger.refresh()});
 </script>
 <script>
 (function(){
-var W='https://wa.me/918438430055?text=Enquiry%20For%20Dental%20Treatment%20Services';
-var views=['about-us','our-services','testimonials'],done={};
-var TECH=['Digitalized Dental Chair','Laser','OPG Machine','iTero Scanner','Painless Dental Injection','Conscious Sedation','Dental Milling (CAD-CAM)','CBCT 3D Machine','Philips Whitening System','Face Scanner','UV Lights and Fumigators'];
-var S=[['Dental Implants','Replace missing teeth with implants planned using 3D imaging.'],['Invisalign','Clear aligner treatment guided by digital scanning.'],['Orthodontics & Braces','Ceramic and self-ligating braces for teeth alignment.'],['Smile Makeovers','Redesign your smile with cosmetic treatments tailored to you.'],['Cosmetic Dentistry','Treatments that improve the look of your teeth.'],['Pediatric Dentistry','Gentle dental care for children.'],['Laser Dentistry','Precise, comfortable treatment using dental lasers.'],['Root Canal Treatment','Painless root canal care to save your natural tooth.'],['Fillings & Crowns','Durable restorations for damaged teeth.'],['Scaling & Cleaning','Routine check-ups and professional cleaning.'],['Teeth Whitening','Whitening with the Philips whitening system.'],['Full Mouth Rehabilitation','Complete restoration for complex dental needs.'],['Dental Tourism','Care for patients travelling to Madurai for treatment.']];
-var L=[['Global Center','41-C, P.T Rajan Road, Narimedu, Madurai - 625002','0452-444-8666','+91 9489 507 090'],['Branch 1','68, Munichalai Rd, adjacent to Apollo Pharmacy, Madurai - 625009','0452-452-0066','+91 9047 777 934'],['Branch 2','No.14 Ground floor, KK Nagar Main Rd, next to Milan’Em Mall, Madurai - 625020','0452-356-4071','+91 904 240 0800'],['Branch 3','41-B, PT Rajan Road, Narimedu, Madurai - 625002','0452-253-0501','+91 8489 299 299'],['Chennai Branch','126, Bazaar St, Kundrathur, Thandalam, Chennai - 600 069','044-2478-0786','+91 9578 339 900']];
-var R=[['Gopalan S','Excellent hospital with highly professional doctors and caring staff. The treatment was effective, and the facilities were clean and well-maintained. I’m very satisfied with the care I received!'],['Mukesh Pandi','Procedures and treatment plans are explained clearly, so that every people can understand easily. Doctor and Nurses are very kind and attentive.'],['aruna mani','Very good explanation about the treatment plans and execution of the treatment… very much satisfied'],['Karthik Kumar','I went for my root canal treatment, staff’s are so caring, hospital is sanitized well. Overall too good.'],['Srinidhi Selvakumar','Good Service. Doctors explain the condition to us in simplest terms and my tooth filling was neat and good.'],['Mousika R','Friendly and they addressed each and every issues carefully. Thanks for the service. Affordable price.'],['Pathri Narayanan N','I recently did a root canal, doctors are very kind, painless treatment and price also reasonable across Madurai. Recommended'],['Priya Sethu','Good and affordable. I had done my root canal treatment for my front tooth. Service is very good. The cap which they fixed also suits well.'],['Soundharapandiyan Govindasamy','It’s a best dental clinic in my experience. I went for scaling and doc did it without pain. For my 11 years old son, scaling done with proper attention. For my 6 years daughter, tooth filling did in a better way without pain.'],['Raj Kumar Sekar','I had ceramic self-ligating braces for teeth alignment. The staff was patient-friendly. After completing my treatment, I got the desired results, and my appearance has improved.'],['Vijaya Babu','I did root canal treatment here and had a very good experience overall. They are very professional, well managed clinic with great facilities and excellent dedicated team.'],['C. R. Collection Madurai','Dr and the staff were extremely professional, friendly, and attentive. They explained the procedure clearly and made sure I felt at ease. I also appreciate the minimal waiting time and the smooth appointment process.']];
-R=R.concat([['Shagana Shagana','Zara Dental provides excellent care across various treatments: routine check-ups and cleanings, fillings, crowns and root canal. I had orthodontic treatment at Zara Dental, and it was an awesome experience.'],['Prem G','Excellent service, very polite and friendly explanation for patients, both doctor madam and staff. Good service, thank you and keep it up.'],['Abin Abraham','I received excellent treatment at this dental clinic. The staff was professional, friendly, and attentive. Thanks for the service.'],['kanagavalli ramaraj','Best dental clinic ever. Very neat and clean. Very professional and recommended for braces and other tooth problems.'],['Kavitha Lakshmi','I received excellent treatment at this dental clinic. The staff was professional, friendly, and attentive. The clinic was clean and well-maintained, and the entire process was smooth and efficient. Highly recommended!'],['Muhammed Riswan','The staff was exceptionally friendly and professional, making me feel comfortable throughout my appointment. The dentist explained the procedures thoroughly and answered all my questions patiently.'],['Rajkumar Ravi','I had root canal and filling in this clinic and had a great experience. They have great equipment, so when they work on your tooth they show you what the problem is and how they rectified it.'],['venkatesan s','Wisdom tooth root canal is a tough process, but they did it in a clever manner. I am very satisfied with their process.'],['siva','The staff was exceptionally friendly and professional. The dentist explained the braces procedure thoroughly and answered all my questions patiently.'],['Solaimani','I have been a patient for the past 8 months and I am very pleased with the care. The doctor explained the different types of braces and the best option for my needs, and the cost has been very reasonable.']]);
-var RL=['DSkUaIWEc4x','DSaGiKdkToX','DSAT9IHEYId','DRpENnNEdNZ','DRhXL65ESf_','DT-aaeDEk18','DTsdpRsEoR5','DTaciC8DC0O','DRl1ndjEYRo','DRPWC61ESpC','DRKJVpkkZ4T'];
-var B={eq:function(){return Array.prototype.map.call(document.querySelectorAll('#services .sc'),function(c){return '<div class="ec rv"><div class="ph">'+c.querySelector('.ph').innerHTML+'</div><h3>'+c.querySelector('h3').textContent+'</h3><p>'+c.querySelector('p').textContent+'</p></div>'}).join('')},reels:function(){return RL.map(function(id,i){var n=('0'+(i+1)).slice(-2);return '<a class="rplay rv" href="https://www.instagram.com/reel/'+id+'/" target="_blank" rel="noopener" aria-label="Watch patient story '+n+' on Instagram"><span>▶</span><em>Patient story '+n+'</em><small>Watch on Instagram ↗</small></a>'}).join('')},tech:function(){return TECH.map(function(t){return '<span class="rv">'+t+'</span>'}).join('')},
-svc:function(){return S.map(function(s,i){return '<div class="svc rv"><b>'+('0'+(i+1)).slice(-2)+'</b><h3>'+s[0].replace('&','&amp;')+'</h3><p>'+s[1]+'</p></div>'}).join('')},
-loc:function(){return L.map(function(l){return '<div class="loc rv"><b>'+l[0]+'</b>'+l[1]+'<br>'+l[2]+'<br>'+l[3]+'</div>'}).join('')},
-rev:function(){return R.map(function(r){return '<div class="rv2 rv"><i>★★★★★</i>'+r[1]+'<b>'+r[0]+'</b><small>Google review</small></div>'}).join('')}};
-var nav='';
-var cta='<section class="ctaB"><h2>Your smile deserves the best:<br>book with Zaara Dentistry</h2><a href="tel:+919489507090">Call</a><a class="p" href="'+W+'">WhatsApp →</a></section>';
-function init(id){
-if(done[id])return;done[id]=1;
-var v=document.getElementById('v-'+id);
-v.querySelector('[data-nav]').innerHTML=nav;
-v.querySelector('[data-cta]').innerHTML=cta;
-v.querySelectorAll('[data-r]').forEach(function(e){e.innerHTML=B[e.dataset.r]()});
-v.querySelectorAll('[data-dr]').forEach(function(i){var h=document.querySelector('#t1 .dd img');if(h)i.src=h.src});
-v.querySelectorAll('[data-imp]').forEach(function(i){var h=document.querySelector('.hero .implant img');if(h)i.src=h.src});
-v.querySelectorAll('.sub .links a').forEach(function(a){if(a.getAttribute('href')==='#'+id)a.className='on'});
-if(window.gsap&&window.ScrollTrigger&&matchMedia('(prefers-reduced-motion: no-preference)').matches){
-var items=gsap.utils.toArray(v.querySelectorAll('.rv,.ctaB'));
-gsap.set(items,{autoAlpha:0,y:30});
-gsap.from(v.querySelectorAll('.phero .h1,.phero p'),{y:30,autoAlpha:0,duration:.8,stagger:.12,ease:'power3.out'});
-ScrollTrigger.batch(items,{start:'top 92%',once:true,onEnter:function(b){gsap.to(b,{autoAlpha:1,y:0,duration:.7,stagger:.07,overwrite:true})}});
-}}
-function route(){
-var h=location.hash.slice(1),v=views.indexOf(h)>-1?h:null;
-document.getElementById('v-home').hidden=!!v;
-views.forEach(function(id){document.getElementById('v-'+id).hidden=(id!==v)});
-if(v){window.scrollTo(0,0);init(v)}else if(h){var t=document.getElementById(h);if(t)t.scrollIntoView()}
-if(window.ScrollTrigger)ScrollTrigger.refresh();
-var key=v||(h==='contact'?'contact':'home');
-document.querySelectorAll('.topbar .menu a').forEach(function(a){if(a.getAttribute('href')==='#'+key){a.classList.add('on');a.setAttribute('aria-current','page')}else{a.classList.remove('on');a.removeAttribute('aria-current')}});
-document.getElementById('top').classList.remove('open');document.querySelector('.burger').setAttribute('aria-expanded','false');
+var fab=document.querySelector('.fab');
+var f=document.getElementById('fform');
+if(!fab||!f)return;
+
+var form=f.querySelector('form');
+var err=f.querySelector('.fe');
+var button=form.querySelector('.fs');
+
+fab.setAttribute('aria-controls','fform');
+fab.setAttribute('aria-expanded','false');
+
+var d=form.elements.d;
+var today=new Date();
+d.min=today.getFullYear()+'-'+
+('0'+(today.getMonth()+1)).slice(-2)+'-'+
+('0'+today.getDate()).slice(-2);
+
+function set(open){
+f.hidden=!open;
+fab.setAttribute('aria-expanded',open?'true':'false');
+if(open)form.elements.n.focus();
 }
-var bg=document.querySelector('.burger');
-bg.addEventListener('click',function(){var o=document.getElementById('top').classList.toggle('open');bg.setAttribute('aria-expanded',o?'true':'false')});
-window.addEventListener('hashchange',route);
-route();
-})();
-</script>
-<script>
-/* Floating booking form. Until real database booking is configured (window.ZAARA_BOOKING.functionUrl),
-   it only prepares a WhatsApp message; nothing is stored or claimed as booked.
-   Once configured, it sends the request to the Edge Function, which stores it and forwards it to the CRM. */
-(function(){
-var fab=document.querySelector('.fab'),f=document.getElementById('fform');if(!fab||!f)return;
-var form=f.querySelector('form'),err=f.querySelector('.fe');
-fab.setAttribute('aria-controls','fform');fab.setAttribute('aria-expanded','false');
-var d=form.elements.d,t=new Date();d.min=t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2);
-function mode(){var c=window.ZAARA_BOOKING||{};if(c.functionUrl){f.querySelector('.fs').textContent='Send request';f.querySelector('.fn').textContent='Your request is sent to Zaara Dentistry and our team will contact you to confirm.'}return c}
-function set(o){if(o)mode();f.hidden=!o;fab.setAttribute('aria-expanded',o?'true':'false');if(o)form.elements.n.focus()}
+
 fab.addEventListener('click',function(e){
- e.preventDefault();set(f.hidden)});
-f.querySelector('.fx').addEventListener('click',function(){set(false);fab.focus()});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!f.hidden){set(false);fab.focus()}});
-form.addEventListener('submit',function(e){
- e.preventDefault();var v=form.elements,n=v.n.value.trim(),p=v.p.value.replace(/[\s\-().]/g,'');
- if(n.length<2){err.textContent='Please enter your full name.';v.n.focus();return}
- if(!/^\+?[0-9]{7,15}$/.test(p)){err.textContent='Please enter a valid phone number.';v.p.focus();return}
- err.textContent='';
- var m='Hello Zaara Dentistry, I would like to book an appointment.\nName: '+n+'\nPhone: '+p+'\nService: '+v.s.value+'\nBranch: '+v.b.value+'\nPreferred date: '+(v.d.value||'Not specified')+'\nPreferred time: '+v.t.value;
- var c=mode();
- if(c.functionUrl){
-  var b=form.querySelector('.fs');b.disabled=true;
-  var msg='Appointment request. Service: '+v.s.value+'. Branch: '+v.b.value+'. Preferred date: '+(v.d.value||'not specified')+'. Preferred time: '+v.t.value+'.';
-  fetch(c.functionUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'enquiry',name:n,phone:p,message:msg,website:''})})
-  .then(function(r){b.disabled=false;
-   if(r.status===201){form.reset();err.style.color='#1a7f37';err.textContent='Request received. Zaara Dentistry will contact you soon.';setTimeout(function(){set(false);err.textContent='';err.style.color=''},3500)}
-   else err.textContent='Could not send your request. Please try again or contact us on WhatsApp.'})
-  .catch(function(){b.disabled=false;err.textContent='Network error. Please try again.'});
-  return;
- }
- window.open('https://wa.me/918438430055?text='+encodeURIComponent(m),'_blank','noopener');
- form.reset();set(false);
+e.preventDefault();
+set(f.hidden);
 });
+
+f.querySelector('.fx').addEventListener('click',function(){
+set(false);
+fab.focus();
+});
+
+document.addEventListener('keydown',function(e){
+if(e.key==='Escape'&&!f.hidden){
+set(false);
+fab.focus();
+}
+});
+
+form.addEventListener('submit',function(e){
+e.preventDefault();
+
+var v=form.elements;
+var name=v.n.value.trim();
+var phone=v.p.value.replace(/[\s\-().]/g,'');
+
+if(name.length<2){
+err.textContent='Please enter your full name.';
+v.n.focus();
+return;
+}
+
+if(!/^\+?[0-9]{7,15}$/.test(phone)){
+err.textContent='Please enter a valid phone number.';
+v.p.focus();
+return;
+}
+
+var apiUrl=window.ZAARA_LEAD_API_URL;
+
+if(!apiUrl){
+err.textContent='Booking service is temporarily unavailable. Please contact us on WhatsApp.';
+return;
+}
+
+err.style.color='';
+err.textContent='';
+button.disabled=true;
+button.textContent='Sending...';
+
+var payload={
+action:'enquiry',
+name:name,
+phone:phone,
+service:v.s.value,
+branch:v.b.value,
+preferredDate:v.d.value||'',
+preferredTime:v.t.value,
+email:'',
+website:''
+};
+
+fetch(apiUrl,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify(payload)
+})
+.then(function(response){
+return response.json().then(function(data){
+return {status:response.status,body:data};
+});
+})
+.then(function(result){
+if(result.status===201&&result.body.success){
+form.reset();
+err.style.color='#1a7f37';
+err.textContent='Your appointment request has been received. Our team will contact you to confirm.';
+setTimeout(function(){
+set(false);
+err.textContent='';
+err.style.color='';
+},4000);
+}else{
+err.textContent='Could not send your request. Please try again or contact us on WhatsApp.';
+}
+})
+.catch(function(){
+err.textContent='Network error. Please try again.';
+})
+.finally(function(){
+button.disabled=false;
+button.textContent='Request Appointment';
+});
+});
+
+button.textContent='Request Appointment';
 })();
 </script>
 <script src="config.js"></script>
