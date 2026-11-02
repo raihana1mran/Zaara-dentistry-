@@ -126,6 +126,7 @@ module.exports = async function handler(req, res) {
 
     // Create a Lead for the appointment request.
     const lead = {
+      status:"New",
       FirstName: firstName || undefined,
       LastName: lastName,
       Company: "Zaara Dentistry Website",
