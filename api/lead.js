@@ -1,4 +1,4 @@
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   const allowedOrigin = "https://raihana1mran.github.io";
 
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
